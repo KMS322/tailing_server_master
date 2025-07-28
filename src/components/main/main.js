@@ -1,9 +1,13 @@
 import "../../css/main.css";
-import MainS1 from "./mainS1";
+// import React, {useState} from "react";
+// import axios from "axios";
+
 const Main = () => {
+  // const [orgLists, setOrgLists] = useState([]);
+  
   return (
     <>
-      <MainS1 />
+      
     </>
   );
 };
