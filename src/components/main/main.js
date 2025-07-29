@@ -51,7 +51,7 @@ const Main = () => {
               <p>{list.org_name}</p>
               <p>{list.device_code}</p>
               <p>{formatKoreanTime(lastest?.createdAt)}</p>
-              <p>{csvs.length/2}</p>
+              <p>{csvs.length}</p>
             </div>
           )
         })}
