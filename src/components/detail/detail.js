@@ -75,11 +75,6 @@ const Detail = () => {
       window.URL.revokeObjectURL(url);
     } catch(e) {
       console.error(e);
-      console.error("=== 다운로드 실패 ===");
-      console.error("에러 전체:", e);
-      console.error("상태 코드:", e.response?.status);
-      console.error("에러 메시지:", e.response?.data);
-      console.error("요청 설정:", e.config);
     }
   }
   return (
