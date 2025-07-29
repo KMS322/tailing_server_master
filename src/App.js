@@ -5,6 +5,7 @@ import ScrollToTop from "./scrollToTop";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import Main from "./components/main/main";
+import Detail from "./components/detail/detail";
 function App() {
   return (
     <>
@@ -12,6 +13,7 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Main />} />
+        <Route path="/detail/:code" element={<Detail />} />
       </Routes>
       <Footer />
     </>
