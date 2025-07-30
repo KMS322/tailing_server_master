@@ -82,7 +82,7 @@ const Detail = () => {
       <div className="detail_container">
         <div className="head_row" >
           <p>시작날짜</p>
-          <p>동물</p>
+          <p>동물이름/생년월일/종/품종/몸무게</p>
           <p>용량</p>
           <p>다운로드</p>
         </div>
