@@ -77,7 +77,6 @@ const Detail = () => {
       console.error(e);
     }
   }
-  console.log("petInfos : ", petInfos);
   return (
     <>
       <div className="detail_container">
