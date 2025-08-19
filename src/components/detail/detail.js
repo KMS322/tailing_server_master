@@ -8,11 +8,11 @@ const Detail = () => {
   const {code} = useParams();
   const [dataLists,setDataLists] = useState([]);
   const [petInfos, setPetInfos] = useState([]);
+
   useEffect(() => {
     const loadDatas = async () => {
       try {
         const response = await axios.post(`${API_URL}/master/loadData`, {code});
-
         setDataLists(response.data.dataLists);  
         setPetInfos(response.data.petInfos);
       }
@@ -99,19 +99,21 @@ const Detail = () => {
           .map((list, index) => {
             const pet = petInfos.find((pet) => pet.pet_code === list.pet_code);
             const startDate = list.file_name.split("_")[2].split(".")[0];
+            // console.log("list : ", list);
+            // console.log("pet : ", pet);
             return (
               <div className="body_row" key={index} onClick={() => {
                 // goDetailPet(list.pet_code);
               }}>
                 <p>{formatDate(startDate)}</p>
-                <p>{pet.name}/{pet.birth}/{pet.species}/{pet.breed}/{pet.weight}</p>
-                <p>{list.size} kb</p>
+                <p>{pet?.name}/{pet?.birth}/{pet?.species}/{pet?.breed}/{pet?.weight}</p>
+                <p>{list?.size} kb</p>
                 <div className="btn_box">
                   <p className="btn"onClick={() => {
-                    downloadFile(list.file_name, "customer");
+                    downloadFile(list?.file_name, "customer");
                   }}>고객용</p>
                   <p className="btn" onClick={() => {
-                    downloadFile(list.file_name, "company");
+                    downloadFile(list?.file_name, "company");
                   }}>회사용</p>
                 </div>
 
