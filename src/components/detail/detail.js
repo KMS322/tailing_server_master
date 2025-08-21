@@ -3,11 +3,13 @@ import React, {useState, useEffect} from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { API_URL } from "../constants";
+import Chart from "./chart";
 
 const Detail = () => {
   const {code} = useParams();
   const [dataLists,setDataLists] = useState([]);
   const [petInfos, setPetInfos] = useState([]);
+  const [selectedPet, setSelectedPet] = useState(null);
 
   useEffect(() => {
     const loadDatas = async () => {
@@ -100,24 +102,32 @@ const Detail = () => {
             const pet = petInfos.find((pet) => pet.pet_code === list.pet_code);
             const startDate = list.file_name.split("_")[2].split(".")[0];
             // console.log("list : ", list);
-            // console.log("pet : ", pet);
             return (
-              <div className="body_row" key={index} onClick={() => {
-                // goDetailPet(list.pet_code);
-              }}>
-                <p>{formatDate(startDate)}</p>
-                <p>{pet?.name}/{pet?.birth}/{pet?.species}/{pet?.breed}/{pet?.weight}</p>
-                <p>{list?.size} kb</p>
-                <div className="btn_box">
-                  <p className="btn"onClick={() => {
-                    downloadFile(list?.file_name, "customer");
-                  }}>고객용</p>
-                  <p className="btn" onClick={() => {
-                    downloadFile(list?.file_name, "company");
-                  }}>회사용</p>
+              <>
+                <div className="body_row" key={index} onClick={() => {
+                  // goDetailPet(list.pet_code);
+                }}>
+                  <p>{formatDate(startDate)}</p>
+                  <p>{pet?.name}/{pet?.birth}/{pet?.species}/{pet?.breed}/{pet?.weight}</p>
+                  <p onClick={() => {
+                    if(selectedPet === list?.file_name) {
+                      setSelectedPet(null);
+                    } else {
+                      setSelectedPet(list?.file_name);
+                    }
+                  }}>{list?.size} kb</p>
+                  <div className="btn_box">
+                    <p className="btn"onClick={() => {
+                      downloadFile(list?.file_name, "customer");
+                    }}>고객용</p>
+                    <p className="btn" onClick={() => {
+                      downloadFile(list?.file_name, "company");
+                    }}>회사용</p>
+                  </div>
                 </div>
-
-            </div>
+                {selectedPet === list?.file_name && <Chart fileName={list?.file_name} close={() => {setSelectedPet(null)}}/>}
+                    
+              </>
             )
           })
         }
