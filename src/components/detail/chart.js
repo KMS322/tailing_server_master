@@ -23,8 +23,8 @@ const PPGChart = ({ data, dataKey, color, title }) => (
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="index" />
           <YAxis />
-          <Tooltip />
-          <Legend />
+          {/* <Tooltip />
+          <Legend /> */}
           <Line type="monotone" dataKey={dataKey} stroke={color} dot={false} />
         </LineChart>
       </ResponsiveContainer>
@@ -48,7 +48,12 @@ const Chart = ({ fileName, close }) => {
         );
 
         const parsed = Papa.parse(response.data, { header: true });
-        const processed = parsed.data.map((row, i) => ({ index: i, ...row }));
+        const processed = parsed.data.map((row, i) => ({
+          index: i,
+          ir: Number(row.ir),
+          red: Number(row.red),
+          // green: Number(row.green),
+        }));
         setData(processed);
         setDisplayData(processed);
         setMinRange("1");
@@ -112,7 +117,7 @@ const Chart = ({ fileName, close }) => {
           </div>
           <PPGChart data={displayData} dataKey="ir" color="black" title="IR" />
           <PPGChart data={displayData} dataKey="red" color="red" title="RED" />
-          <PPGChart data={displayData} dataKey="green" color="green" title="GREEN" />
+          {/* <PPGChart data={displayData} dataKey="green" color="green" title="GREEN" /> */}
         </>
       )}
     </div>

@@ -109,7 +109,7 @@ const Detail = () => {
                 }}>
                   <p>{formatDate(startDate)}</p>
                   <p>{pet?.name}/{pet?.birth}/{pet?.species}/{pet?.breed}/{pet?.weight}</p>
-                  <p onClick={() => {
+                  <p style={{cursor: "pointer"}}onClick={() => {
                     if(selectedPet === list?.file_name) {
                       setSelectedPet(null);
                     } else {
