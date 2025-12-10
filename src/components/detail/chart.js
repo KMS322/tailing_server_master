@@ -1,7 +1,5 @@
 import "../../css/chart.css";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { API_URL } from "../constants";
 import Papa from "papaparse";
 import {
   LineChart,
@@ -14,23 +12,35 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const PPGChart = ({ data, dataKey, color, title }) => (
-  <div style={{ marginBottom: "2rem" }}>
-    <h3>{title}</h3>
-    <div style={{ width: "100%", height: 250 }}>
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="index" />
-          <YAxis />
-          {/* <Tooltip />
-          <Legend /> */}
-          <Line type="monotone" dataKey={dataKey} stroke={color} dot={false} />
-        </LineChart>
-      </ResponsiveContainer>
+const PPGChart = ({ data, dataKey, color, title }) => {
+  // 데이터의 최소값과 최대값 계산
+  const values = data.map(d => d[dataKey]).filter(v => !isNaN(v) && v > 0);
+  const minValue = Math.min(...values);
+  const maxValue = Math.max(...values);
+
+  // 여유 공간 추가 (범위의 10%)
+  const padding = (maxValue - minValue) * 0.1;
+  const yMin = Math.floor(minValue - padding);
+  const yMax = Math.ceil(maxValue + padding);
+
+  return (
+    <div style={{ marginBottom: "2rem" }}>
+      <h3>{title}</h3>
+      <div style={{ width: "100%", height: 250 }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={data}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="index" />
+            <YAxis domain={[yMin, yMax]} />
+            {/* <Tooltip />
+            <Legend /> */}
+            <Line type="monotone" dataKey={dataKey} stroke={color} dot={false} />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const Chart = ({ fileName, close }) => {
   const [data, setData] = useState([]);
@@ -41,13 +51,11 @@ const Chart = ({ fileName, close }) => {
   useEffect(() => {
     const loadChart = async () => {
       try {
-        const response = await axios.post(
-          `${API_URL}/master/loadChart`,
-          { fileName },
-          { responseType: "text" } // CSV는 텍스트로 받아야 함
-        );
+        // public/data/ir.csv 파일을 직접 fetch
+        const response = await fetch('/data/ir.csv');
+        const csvText = await response.text();
 
-        const parsed = Papa.parse(response.data, { header: true });
+        const parsed = Papa.parse(csvText, { header: true });
         const processed = parsed.data.map((row, i) => ({
           index: i,
           ir: Number(row.ir),

@@ -12,18 +12,29 @@ const Detail = () => {
   const [selectedPet, setSelectedPet] = useState(null);
 
   useEffect(() => {
-    const loadDatas = async () => {
-      try {
-        const response = await axios.post(`${API_URL}/master/loadData`, {code});
-        setDataLists(response.data.dataLists);  
-        setPetInfos(response.data.petInfos);
+    // 프론트엔드에서 직접 더미 데이터 설정
+    const dummyPetInfos = [
+      {
+        pet_code: "pet001",
+        name: "테스트펫",
+        birth: "2020-01-01",
+        species: "개",
+        breed: "포메라니안",
+        weight: "3.5kg"
       }
-      catch(e) {
-        console.error(e);
+    ];
+
+    const dummyDataLists = [
+      {
+        file_name: "pet001_device001_20250101-120000.csv",
+        pet_code: "pet001",
+        size: 134 // KB 단위
       }
-    }
-    loadDatas();
-  }, [])
+    ];
+
+    setDataLists(dummyDataLists);
+    setPetInfos(dummyPetInfos);
+  }, [code])
 
   const formatDate = (date) => {
     const [datePart, timePart] = date.split("-");
